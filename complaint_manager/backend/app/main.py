@@ -4,9 +4,33 @@ from app.database import engine, Base, SessionLocal
 from app import models, crud, schemas
 from app.routers import users, categories, complaints
 import sys
+from contextlib import asynccontextmanager
 
 
-app = FastAPI(title="Complaint Management System", version="1.0.0")
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup: Create tables and seed data
+    print("Starting up: Initializing database...")
+    try:
+        Base.metadata.create_all(bind=engine)
+        print("Database tables created successfully")
+        seed_initial_data()
+        print("Database initialization complete")
+    except Exception as e:
+        print(f"Error during startup: {e}")
+        raise
+    
+    yield
+    
+    # Shutdown: Cleanup if needed
+    print("Shutting down...")
+
+
+app = FastAPI(
+    title="Complaint Management System", 
+    version="1.0.0",
+    lifespan=lifespan
+)
 
 app.add_middleware(
     CORSMiddleware,
@@ -21,11 +45,6 @@ app.include_router(users.router)
 app.include_router(categories.router)
 app.include_router(complaints.router)
 
-@app.on_event("startup")
-def startup_event():
-    Base.metadata.create_all(bind=engine)
-    seed_initial_data()
-
 @app.get("/")
 def read_root():
     return {"status": "ok", "message": "Complaint Management System API"}
@@ -33,6 +52,7 @@ def read_root():
 @app.get("/health")
 def health_check():
     return {"status": "healthy"}
+
 
 def seed_initial_data():
     db = SessionLocal()
