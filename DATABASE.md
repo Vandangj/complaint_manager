@@ -301,9 +301,6 @@ python -m uvicorn app.main:app
 ```
 
 ### Migration to MySQL
-Update `.env` file:
-```bash
-DATABASE_URL=mysql+pymysql://username:password@hostname:3306/complaint_db
-```
+Update `.env` file with your MySQL connection string.
 
 The application will automatically create tables in MySQL on first run.
