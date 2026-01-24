@@ -51,18 +51,9 @@ complaint-system/
 
 ### 1. Environment Setup
 
-Create a `.env` file in the root directory:
+Create a `.env` file in the root directory with required environment variables. See `.env.example` for template.
 
-```bash
-# For SQLite (local testing - default)
-DATABASE_URL=sqlite:///./db.sqlite3
-
-# For MySQL (production - PlanetScale, Railway, etc.)
-# DATABASE_URL=mysql+pymysql://username:password@hostname:3306/complaint_db
-
-# Backend API URL
-API_BASE_URL=http://localhost:8000
-```
+**Note**: Never commit actual `.env` file with credentials. Use environment variables or secrets management for sensitive data.
 
 ### 2. Install Dependencies
 
@@ -152,44 +143,33 @@ Select a user from the sidebar dropdown to simulate different users (admin/regul
 
 ### Using MySQL (Recommended)
 
-1. Create a MySQL database on:
-   - [PlanetScale](https://planetscale.com/)
-   - [Railway](https://railway.app/)
+1. Create a MySQL database on a cloud provider like:
+   - PlanetScale
+   - Railway
+   - AWS RDS
    - Any MySQL hosting provider
 
-2. Update `.env` or Replit Secrets:
-   ```
-   DATABASE_URL=mysql+pymysql://user:pass@host:3306/dbname
-   ```
+2. Set up environment variables securely:
+   - Store `DATABASE_URL` in environment variables or secrets management
+   - Never commit credentials in code
+   - Use strong passwords and rotate regularly
 
 3. The application will automatically create tables on first run
 
-### Important Notes for Replit
+### Security Best Practices
 
-- Use external MySQL to persist data across restarts
-- SQLite data may be lost when the container restarts
-- Store `DATABASE_URL` in Replit Secrets for security
-- Don't use "Always On" on free plan to conserve credits
+- Store all sensitive credentials in environment variables or secrets management
+- Don't commit `.env` files to version control
+- Use `.env.example` to document required variables without actual values
+- Rotate database passwords regularly
+- Use HTTPS in production
+- Implement proper authentication and authorization
 
-## Testing with cURL
+## Testing
 
-```bash
-# Create a user
-curl -X POST http://localhost:8000/api/v1/users \
-  -H "Content-Type: application/json" \
-  -d '{"full_name":"Test User","email":"test@example.com","role":"user"}'
+Refer to API documentation at `http://localhost:8000/docs` for detailed endpoint specifications and testing.
 
-# Create a complaint
-curl -X POST http://localhost:8000/api/v1/complaints \
-  -H "Content-Type: application/json" \
-  -d '{"user_id":1,"category_id":1,"title":"Test Issue","description":"Test description"}'
-
-# List all complaints
-curl http://localhost:8000/api/v1/complaints
-
-# Filter complaints by status
-curl "http://localhost:8000/api/v1/complaints?status=open"
-```
+Use tools like Postman or curl to test API endpoints. Ensure authentication is properly configured before making requests.
 
 ## Development
 

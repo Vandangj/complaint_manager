@@ -18,16 +18,6 @@ All three modules share a **common login system** and a **centralized MySQL data
 
 ---
 
-## 👥 Team Members & Roles
-
-| Member | Module | Responsibilities |
-|--------|---------|------------------|
-| **Raj Kale** | 🟢 Lost & Found System | Backend (FastAPI), Database Design, API Integration |
-| **Abhimanyu Kadhane** | ⚙️ Equipment Tracker | Backend (FastAPI), Equipment APIs, Frontend |
-| **Vandan Jethwa** | 🧾 Complaint Management | Backend (FastAPI), Complaint APIs, Frontend |
-
----
-
 ## 📸 Preview
 
 ### Lost and Found
@@ -57,5 +47,5 @@ All three modules share a **common login system** and a **centralized MySQL data
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/elritardato/Campus-Management-Portal.git
-cd Campus-Management-Portal
+git clone <repository-url>
+cd <repository-folder>
